@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}San Wan Visuals | Professional Photography Studio, Kenya{% endblock %}
+{% block meta_description %}San Wan Visuals — Kenya's premier photography studio. We document sport, government, environment and people with precision and artistry. Based in Nairobi.{% endblock %}
+
+{% block content %}
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">Nairobi, Kenya &mdash; Est. San Wan Visuals</p>
+      <h1 class="hero-headline">
+        Every frame<br>
+        <em>tells a story</em><br>
+        worth keeping.
+      </h1>
+      <p class="hero-body">
+        We are a professional photography studio working across sport, government,
+        environment and portraiture. From swim meets to state functions, wilderness
+        to boardrooms — we bring precision and artistry to every assignment.
+      </p>
+      <div class="hero-actions">
+        <a href="{% url 'services' %}" class="btn btn--gold">Explore Our Work</a>
+        <a href="{% url 'contact' %}" class="btn btn--ghost">Book a Session</a>
+      </div>
+    </div>
+    <div class="hero-mosaic">
+      <!-- Placeholder tiles — replace src with real images -->
+      <div class="mosaic-cell mosaic-cell--a">
+        {% if hero_images.0 %}
+          <img src="{{ hero_images.0.url }}" alt="Sports photography">
+        {% else %}
+          <div class="mosaic-placeholder">
+            {% comment %} <span>🏊</span> {% endcomment %}
+            <p>Sports &<br>Swimming</p>
+          </div>
+        {% endif %}
+        <div class="mosaic-label">Sports</div>
+      </div>
+      <div class="mosaic-cell mosaic-cell--b">
+        {% if hero_images.1 %}
+          <img src="{{ hero_images.1.url }}" alt="Portrait photography">
+        {% else %}
+          <div class="mosaic-placeholder">
+            {% comment %} <span>🎖️</span> {% endcomment %}
+            <p>Government &<br>Corporate</p>
+          </div>
+        {% endif %}
+        <div class="mosaic-label">Governmental</div>
+      </div>
+      <div class="mosaic-cell mosaic-cell--c">
+        {% if hero_images.2 %}
+          <img src="{{ hero_images.2.url }}" alt="Environmental photography">
+        {% else %}
+          <div class="mosaic-placeholder">
+            {% comment %} <span>🌿</span> {% endcomment %}
+            <p>Environmental</p>
+          </div>
+        {% endif %}
+        <div class="mosaic-label">Environmental</div>
+      </div>
+      <div class="mosaic-cell mosaic-cell--d">
+        {% if hero_images.3 %}
+          <img src="{{ hero_images.3.url }}" alt="Portrait photography">
+        {% else %}
+          <div class="mosaic-placeholder">
+            {% comment %} <span>🖼️</span> {% endcomment %}
+            <p>Portrait</p>
+          </div>
+        {% endif %}
+        <div class="mosaic-label">Portrait</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-cue-line"></div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     CREDIBILITY BAR
+════════════════════════════════ -->
+<section class="credibility-bar">
+  <div class="credibility-inner">
+    {% for stat in stats %}
+    <div class="cred-item">
+      <strong>{{ stat.value }}</strong>
+      <span>{{ stat.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     DISCIPLINES
+════════════════════════════════ -->
+<section class="disciplines" id="disciplines">
+  <div class="disciplines-inner">
+    <div class="section-label">
+      <span class="label-line"></span>
+      <span>Our Disciplines</span>
+    </div>
+    <h2 class="section-headline">
+      Four disciplines.<br>One uncompromising standard.
+    </h2>
+
+    <div class="discipline-grid">
+      {% for disc in disciplines %}
+      <article class="disc-card" id="{{ disc.slug }}">
+        <div class="disc-card-number">0{{ forloop.counter }}</div>
+        {% comment %} <div class="disc-card-icon">{{ disc.icon }}</div> {% endcomment %}
+        <h3 class="disc-card-title">{{ disc.title }}</h3>
+        <p class="disc-card-body">{{ disc.description }}</p>
+        <ul class="disc-card-tags">
+          {% for tag in disc.tags %}
+          <li>{{ tag }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'services' %}#{{ disc.slug }}" class="disc-card-link">
+          See this work <span aria-hidden="true">→</span>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     FEATURED WORK (gallery strip)
+════════════════════════════════ -->
+<section class="featured-work">
+  <div class="featured-work-inner">
+    <div class="featured-work-header">
+      <div class="section-label">
+        <span class="label-line"></span>
+        <span>Selected Work</span>
+      </div>
+      <a href="{% url 'gallery' %}" class="btn btn--ghost btn--sm">View Full Gallery</a>
+    </div>
+
+    <div class="work-strip">
+      {% for photo in recent_photos %}
+      <div class="work-item">
+        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" loading="lazy">
+        <div class="work-item-overlay">
+          <span class="work-item-tag">{{ photo.discipline }}</span>
+          <span class="work-item-caption">{{ photo.caption }}</span>
+        </div>
+      </div>
+      {% empty %}
+      {% for ph in placeholders %}
+      <div class="work-item work-item--ph">
+        <div class="work-ph-inner">
+          <span>{{ ph.icon }}</span>
+          <p>{{ ph.label }}</p>
+        </div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     PROCESS / WHY US
+════════════════════════════════ -->
+<section class="why-us">
+  <div class="why-us-inner">
+    <div class="why-us-copy">
+      <div class="section-label">
+        <span class="label-line"></span>
+        <span>Why San Wan Visuals</span>
+      </div>
+      <h2 class="section-headline">
+        Photography that works<br>as hard as you do.
+      </h2>
+      <p class="body-copy">
+        Great photography is not accidental. It is the result of thorough preparation,
+        technical mastery and an understanding of what each moment means to the people
+        who lived it. We invest time in knowing your brief before we ever raise a camera.
+      </p>
+      <a href="{% url 'contact' %}" class="btn btn--gold">Start a Conversation</a>
+    </div>
+    <div class="why-us-pillars">
+      {% for pillar in pillars %}
+      <div class="pillar">
+        <div class="pillar-icon">{{ pillar.icon }}</div>
+        <h4 class="pillar-title">{{ pillar.title }}</h4>
+        <p class="pillar-body">{{ pillar.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     PRICING OVERVIEW
+════════════════════════════════ -->
+<section class="pricing-overview" id="pricing">
+  <div class="pricing-overview-inner">
+    <div class="pricing-overview-header">
+      <div class="section-label">
+        <span class="label-line"></span>
+        <span>Transparent Pricing</span>
+      </div>
+      <h2 class="section-headline">Packages built for every brief.</h2>
+      <p class="body-copy">
+        Clear, fair pricing across all disciplines — from single-athlete sessions
+        to full-event institutional coverage. All packages delivered in high resolution
+        within 24 hours.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      {% for pkg in packages %}
+      <div class="pkg-card {% if pkg.best_value %}pkg-card--featured{% endif %}">
+        {% if pkg.best_value %}<div class="pkg-badge">Most Popular</div>{% endif %}
+        <div class="pkg-name">{{ pkg.name }}</div>
+        <div class="pkg-price">
+          <span class="pkg-currency">KES</span>{{ pkg.price|floatformat:"0" }}
+        </div>
+        <div class="pkg-unit">{{ pkg.unit }}</div>
+        <ul class="pkg-features">
+          {% for f in pkg.features %}
+          <li>{{ f }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'contact' %}?package={{ pkg.slug }}" class="pkg-cta {% if pkg.best_value %}pkg-cta--featured{% endif %}">
+          Enquire
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <p class="pricing-note">
+      <span>💡</span>
+      <span>
+        <strong>Early-booking discount:</strong> 15% off any package when confirmed
+        7 or more days before your event. Custom quotes available for multi-day
+        assignments and institutional retainers.
+        <a href="{% url 'pricing' %}">See all pricing →</a>
+      </span>
+    </p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     CTA BAND
+════════════════════════════════ -->
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="cta-band-headline">
+      Ready to document<br><em>your defining moment?</em>
+    </h2>
+    <a href="{% url 'contact' %}" class="btn btn--gold btn--lg">Book a Shoot →</a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Book a Session | San Wan Visuals{% endblock %}
+{% block meta_description %}Book a photography session with San Wan Visuals. Sports, governmental, environmental and portrait photography. Based in Nairobi, Kenya.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="section-label">
+      <span class="label-line"></span>
+      <span>Get in Touch</span>
+    </div>
+    <h1 class="page-headline">Book a Session</h1>
+    <p class="page-subhead">
+      Tell us about your brief and we will get back to you within 24 hours.
+      All enquiries are welcome — from a single portrait to a full institutional package.
+    </p>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="contact-inner">
+
+    <!-- Form -->
+    <div class="contact-form-wrap">
+      {% if preselected %}
+      <div class="preselected-notice">
+        <span>📦</span>
+        <div>
+          <strong>{{ preselected.name }}</strong> — KES {{ preselected.price|floatformat:"0" }} / {{ preselected.unit }}
+          <br><small>This package has been pre-selected based on your choice. You can change it below.</small>
+        </div>
+      </div>
+      {% endif %}
+
+      <form method="POST" class="contact-form" novalidate>
+        {% csrf_token %}
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <input type="text" id="name" name="name" required autocomplete="name"
+                   placeholder="Jane Ochieng"
+                   value="{{ request.POST.name|default:'' }}">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email"
+                   placeholder="jane@example.com"
+                   value="{{ request.POST.email|default:'' }}">
+          </div>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label for="phone">Phone / WhatsApp</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel"
+                   placeholder="+254 7XX XXX XXX"
+                   value="{{ request.POST.phone|default:'' }}">
+          </div>
+          <div class="form-group">
+            <label for="organisation">Organisation / Club</label>
+            <input type="text" id="organisation" name="organisation"
+                   placeholder="e.g. Nairobi Swim Club / Ministry of X"
+                   value="{{ request.POST.organisation|default:'' }}">
+          </div>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label for="discipline">Discipline</label>
+            <select id="discipline" name="discipline">
+              <option value="">— Select a discipline —</option>
+              {% for disc in disciplines %}
+              <option value="{{ disc.slug }}"
+                {% if request.POST.discipline == disc.slug or preselected_discipline == disc.slug %}selected{% endif %}>
+                {{ disc.title }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="package">Package</label>
+            <select id="package" name="package">
+              <option value="">— Select a package (optional) —</option>
+              {% for pkg in packages %}
+              <option value="{{ pkg.slug }}"
+                {% if request.POST.package == pkg.slug or preselected.slug == pkg.slug %}selected{% endif %}>
+                {{ pkg.name }} — KES {{ pkg.price|floatformat:"0" }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label for="event_date">Event / Session Date</label>
+            <input type="date" id="event_date" name="event_date"
+                   value="{{ request.POST.event_date|default:'' }}">
+          </div>
+          <div class="form-group">
+            <label for="location">Location / Venue</label>
+            <input type="text" id="location" name="location"
+                   placeholder="e.g. Kasarani Aquatic Centre, Nairobi"
+                   value="{{ request.POST.location|default:'' }}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Tell us about your brief</label>
+          <textarea id="message" name="message" rows="5"
+                    placeholder="Number of athletes or subjects, event type, any special requirements, turnaround needs...">{{ request.POST.message|default:'' }}</textarea>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="btn btn--gold btn--lg">Send Enquiry →</button>
+          <p class="form-disclaimer">We respond to all enquiries within 24 hours.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Info sidebar -->
+    <aside class="contact-sidebar">
+      <div class="sidebar-block">
+        <h3 class="sidebar-title">Studio Information</h3>
+        <div class="sidebar-info-list">
+          <div class="sidebar-info-item">
+            <span class="sidebar-info-icon">📍</span>
+            <div>
+              <strong>Based in</strong>
+              <p>Nairobi, Kenya<br>Available nationwide</p>
+            </div>
+          </div>
+          <div class="sidebar-info-item">
+            <span class="sidebar-info-icon">⏱</span>
+            <div>
+              <strong>Delivery</strong>
+              <p>Edited images within 24 hours of your event or session</p>
+            </div>
+          </div>
+          <div class="sidebar-info-item">
+            <span class="sidebar-info-icon">📧</span>
+            <div>
+              <strong>Email</strong>
+              <p><a href="mailto:info@sanwanvisuals.com">info@sanwanvisuals.com</a></p>
+            </div>
+          </div>
+          <div class="sidebar-info-item">
+            <span class="sidebar-info-icon">📱</span>
+            <div>
+              <strong>WhatsApp</strong>
+              <p>Message us for a faster response</p>
+            </div>
+          </div>
+          <div class="sidebar-info-item">
+            <span class="sidebar-info-icon">📸</span>
+            <div>
+              <strong>Instagram</strong>
+              <p><a href="#">@sanwanvisuals</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-block sidebar-block--note">
+        <p>
+          <strong>Booking a governmental, environmental or multi-day project?</strong>
+          Mention it in your message and we will follow up with a tailored quote and a pre-shoot consultation at no extra cost.
+        </p>
+      </div>
+
+      <div class="sidebar-packages">
+        <h4 class="sidebar-packages-title">Quick Rate Reference</h4>
+        {% for pkg in packages %}
+        <div class="sidebar-pkg-row">
+          <span>{{ pkg.name }}</span>
+          <span>KES {{ pkg.price|floatformat:"0" }}</span>
+        </div>
+        {% endfor %}
+        <a href="{% url 'pricing' %}" class="sidebar-pricing-link">Full pricing breakdown →</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pricing & Packages | San Wan Visuals{% endblock %}
+{% block meta_description %}Transparent photography pricing in KES. Individual sessions from KES 2,500. Full-event and institutional packages available. San Wan Visuals, Nairobi.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="section-label">
+      <span class="label-line"></span>
+      <span>Investment</span>
+    </div>
+    <h1 class="page-headline">Pricing & Packages</h1>
+    <p class="page-subhead">
+      Straightforward pricing across all disciplines. Every package includes
+      fully edited, high-resolution images delivered within 24 hours.
+      Custom retainer packages are available for organisations and clubs.
+    </p>
+  </div>
+</section>
+
+<section class="pricing-full">
+  <div class="pricing-full-inner">
+
+    <div class="pricing-grid pricing-grid--large">
+      {% for pkg in packages %}
+      <div class="pkg-card {% if pkg.best_value %}pkg-card--featured{% endif %}">
+        {% if pkg.best_value %}<div class="pkg-badge">Most Popular</div>{% endif %}
+        <div class="pkg-name">{{ pkg.name }}</div>
+        <div class="pkg-price">
+          <span class="pkg-currency">KES</span>{{ pkg.price|floatformat:"0" }}
+        </div>
+        <div class="pkg-unit">{{ pkg.unit }}</div>
+        <ul class="pkg-features">
+          {% for f in pkg.features %}
+          <li>{{ f }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'contact' %}?package={{ pkg.slug }}" class="pkg-cta {% if pkg.best_value %}pkg-cta--featured{% endif %}">
+          Book This Package
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="pricing-notes-grid">
+      <div class="pricing-note-card">
+        <span>💡</span>
+        <div>
+          <strong>Early-Booking Discount</strong>
+          <p>Book any package 7 or more days before your event and receive 15% off the listed rate. Confirmation and a 50% deposit secures your date.</p>
+        </div>
+      </div>
+      <div class="pricing-note-card">
+        <span>👥</span>
+        <div>
+          <strong>Group Rate</strong>
+          <p>Groups of 5 or more athletes booking the Starter package are automatically upgraded to the Athlete Pack rate at no extra cost.</p>
+        </div>
+      </div>
+      <div class="pricing-note-card">
+        <span>🏛️</span>
+        <div>
+          <strong>Institutional & Retainer</strong>
+          <p>Government bodies, NGOs, schools and clubs can enquire about monthly retainer arrangements and multi-event season packages.</p>
+        </div>
+      </div>
+      <div class="pricing-note-card">
+        <span>📦</span>
+        <div>
+          <strong>What Every Package Includes</strong>
+          <p>Full post-processing, colour grading, private online gallery, high-resolution downloads and print-ready files as standard.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="cta-band-headline">
+      Need a custom quote?<br>
+      <em>We'll build a package around your brief.</em>
+    </h2>
+    <a href="{% url 'contact' %}" class="btn btn--gold btn--lg">Request a Quote →</a>
+  </div>
+</section>
+
+{% endblock %}

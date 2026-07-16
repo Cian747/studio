@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gallery | San Wan Visuals{% endblock %}
+{% block meta_description %}Browse work from San Wan Visuals across sports, governmental, environmental and portrait photography. Professional photography studio, Nairobi Kenya.{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="section-label">
+      <span class="label-line"></span>
+      <span>The Work</span>
+    </div>
+    <h1 class="page-headline">Gallery</h1>
+    <p class="page-subhead">A selection of work across our four disciplines.</p>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="gallery-section-inner">
+
+    <!-- Filter tabs -->
+    <div class="gallery-filters" id="galleryFilters">
+      <button class="filter-btn is-active" data-filter="all">All Work</button>
+      <button class="filter-btn" data-filter="sports">Sports & Swimming</button>
+      <button class="filter-btn" data-filter="governmental">Governmental</button>
+      <button class="filter-btn" data-filter="environmental">Environmental</button>
+      <button class="filter-btn" data-filter="portrait">Portrait</button>
+    </div>
+
+    <!-- Gallery grid -->
+    <div class="gallery-grid" id="galleryGrid">
+      {% for photo in photos %}
+      <div class="gallery-cell" data-discipline="{{ photo.discipline_slug }}">
+        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" loading="lazy">
+        <div class="gallery-cell-overlay">
+          <span class="gallery-cell-tag">{{ photo.discipline }}</span>
+          {% if photo.caption %}<span class="gallery-cell-caption">{{ photo.caption }}</span>{% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <!-- Placeholder grid until real photos are uploaded -->
+      {% for ph in placeholders %}
+      <div class="gallery-cell gallery-cell--ph" data-discipline="{{ ph.slug }}">
+        <div class="gallery-ph-inner">
+          <span>{{ ph.icon }}</span>
+          <p>{{ ph.label }}</p>
+          <small>{{ ph.sub }}</small>
+        </div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="cta-band-headline">
+      Like what you see?<br>
+      <em>Let's create something together.</em>
+    </h2>
+    <a href="{% url 'contact' %}" class="btn btn--gold btn--lg">Book a Session →</a>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Simple client-side discipline filter
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cells = document.querySelectorAll('.gallery-cell');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const filter = btn.dataset.filter;
+    cells.forEach(cell => {
+      const show = filter === 'all' || cell.dataset.discipline === filter;
+      cell.style.display = show ? '' : 'none';
+    });
+  });
+});
+</script>
+{% endblock %}

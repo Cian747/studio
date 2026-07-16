@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Disciplines | San Wan Visuals{% endblock %}
+{% block meta_description %}Professional photography across sports & swimming, governmental & corporate, environmental and portrait disciplines. San Wan Visuals — Nairobi, Kenya.{% endblock %}
+
+{% block content %}
+
+<!-- Page header -->
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="section-label">
+      <span class="label-line"></span>
+      <span>What We Do</span>
+    </div>
+    <h1 class="page-headline">Our Disciplines</h1>
+    <p class="page-subhead">
+      From the starting blocks to the cabinet office, from forest floors to
+      studio backdrops — we work across four disciplines with the same level
+      of craft and commitment.
+    </p>
+  </div>
+</section>
+
+<!-- Each discipline as a full section -->
+{% for disc in disciplines %}
+<section class="disc-section {% if forloop.even %}disc-section--reverse{% endif %}" id="{{ disc.slug }}">
+  <div class="disc-section-inner">
+
+    <div class="disc-section-visual">
+      <div class="disc-visual-main disc-visual-main--ph">
+        <div class="disc-ph-icon">{{ disc.icon }}</div>
+        <p class="disc-ph-label">{{ disc.title }}</p>
+      </div>
+      <div class="disc-visual-accent">
+        <div class="disc-ph-secondary"></div>
+      </div>
+    </div>
+
+    <div class="disc-section-copy">
+      <div class="section-label">
+        <span class="label-line"></span>
+        <span>0{{ forloop.counter }} — {{ disc.title }}</span>
+      </div>
+      <h2 class="disc-section-headline">{{ disc.headline }}</h2>
+      <p class="body-copy">{{ disc.long_description }}</p>
+
+      <div class="disc-deliverables">
+        <p class="deliverables-label">What's included</p>
+        <ul class="deliverables-list">
+          {% for d in disc.deliverables %}
+          <li>{{ d }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <a href="{% url 'contact' %}?discipline={{ disc.slug }}" class="btn btn--gold">
+        Enquire About This →
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endfor %}
+
+<!-- CTA band -->
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="cta-band-headline">
+      Not sure which discipline fits?<br>
+      <em>Let's talk through your brief.</em>
+    </h2>
+    <a href="{% url 'contact' %}" class="btn btn--gold btn--lg">Get in Touch →</a>
+  </div>
+</section>
+
+{% endblock %}
